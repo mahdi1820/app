@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent">#00BCD4</color>
+    <color name="black">#FF000000</color>
+    <color name="divider">#BDBDBD</color>
+    <color name="ic_launcher_background">#EBEC90</color>
+    <color name="icons">#212121</color>
+    <color name="primary">#FFEB3B</color>
+    <color name="primary_dark">#FBC02D</color>
+    <color name="primary_light">#FFF9C4</color>
+    <color name="primary_text">#212121</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="secondary_text">#757575</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="white">#FFFFFFFF</color>
+    <item name="address" type="id"/>
+    <item name="age" type="id"/>
+    <item name="email" type="id"/>
+    <item name="password" type="id"/>
+    <item name="signup_button" type="id"/>
+    <string name="address">Address</string>
+    <string name="age">Age</string>
+    <string name="app_name">My Application1</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign Up</string>
+    <style name="AppTheme">
+        <item name="fontFamily">@font/prompt</item>
+    </style>
+    <style name="Theme.MyApplication1" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/black</item>
+        
+        <item name="colorSecondary">@color/accent</item>
+        <item name="colorSecondaryVariant">@color/accent</item>
+        <item name="colorOnSecondary">@color/white</item>
+        
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        
+
+    </style>
+</resources>
