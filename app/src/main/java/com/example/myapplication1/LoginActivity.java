@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void validateCredentials(String email, String password) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.236/login.php",
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.228/login.php",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

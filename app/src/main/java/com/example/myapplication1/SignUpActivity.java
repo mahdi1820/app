@@ -52,7 +52,7 @@ public class SignUpActivity extends AppCompatActivity {
         String address = addressEditText.getText().toString();
 
 
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.236/signup.php",
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.228/signup.php",
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
