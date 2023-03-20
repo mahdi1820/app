@@ -35,8 +35,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="225dp"
-        android:layout_height="408dp"
+        android:layout_width="227dp"
+        android:layout_height="410dp"
         app:srcCompat="@drawable/pizza" />
 
     <ImageView
@@ -62,12 +62,15 @@
         android:layout_width="281dp"
         android:layout_height="67dp"
         android:layout_above="@+id/already_have_account_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="156dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="357dp"
+        android:layout_marginEnd="55dp"
+        android:layout_marginBottom="166dp"
+        android:fontFamily="@font/prompt"
         android:text="Welcome"
         android:textAlignment="center"
         android:textColor="@color/primary_dark"
-        android:fontFamily="@font/prompt"
         android:textSize="34sp" />
 
 

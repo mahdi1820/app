@@ -36,11 +36,12 @@ id imageView3
 id login_button
 id login_email
 id login_password
+id logout
 id password
 id signup_button
 id textView
-id textview
 id tv_login_title
+id welcome_textview
 layout acitivity_login
 layout activity_home
 layout activity_signup
@@ -52,6 +53,7 @@ string address
 string age
 string app_name
 string email
+string logout
 string password
 string sign_up
 style AppTheme

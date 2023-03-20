@@ -9,14 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 
 import org.json.JSONException;
@@ -33,46 +25,43 @@ public class LoginActivity extends HttpActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String login="login.php";
         setContentView(R.layout.acitivity_login);
         emailEditText = findViewById(R.id.login_email);
         passwordEditText = findViewById(R.id.login_password);
         loginButton = findViewById(R.id.login_button);
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = emailEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
-
                 Map<String, String> params = new HashMap<>();
                 params.put("email", email);
                 params.put("password", password);
-                send(login,params);
+                send(LOGIN,params);
             }
         });
     }
-    protected void ResponseReceived(String response,Map<String, String> params) {
+    protected void ResponseReceived(String response,Map<String,String> params){
         try {
             JSONObject jsonObject = new JSONObject(response);
             String status = jsonObject.getString("status");
             if (status.equals("success")) {
                 JSONObject userObject = jsonObject.getJSONObject("user_info");
-                String family_name = userObject.getString("familyname");
-                String first_name = userObject.getString("firstname");
+                String family_name = userObject.getString("family_name");
+                String first_name = userObject.getString("first_name");
                 String email = userObject.getString("email");
                 int age = userObject.getInt("age");
                 String address = userObject.getString("address");
-
                 // Save user information to shared preferences
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                 SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("familyname", family_name);
-                editor.putString("firstname", first_name);
+                editor.putString("family_name", family_name);
+                editor.putString("first_name", first_name);
                 editor.putString("email", email);
                 editor.putInt("age", age);
                 editor.putString("address", address);
                 editor.apply();
-
                 // Start HomeActivity
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(intent);
@@ -85,35 +74,4 @@ public class LoginActivity extends HttpActivity {
             e.printStackTrace();
         }
     }
-//    private void validateCredentials(String email, String password) {
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.228/login.php",
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        if (response.trim().equals("success")) {
-//                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-//                            startActivity(intent);
-//                            finish();
-//                        } else {
-//                            Toast.makeText(LoginActivity.this, response, Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        // Error occurred, show error message
-//                        Toast.makeText(LoginActivity.this, "Error occurred: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                }) {
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                // Set POST parameters
-//                return params;
-//            }
-//        };
-//        // Add request to queue
-//        Volley.newRequestQueue(this).add(stringRequest);
-//
-//    }
 }
