@@ -29,9 +29,11 @@
         android:theme="@style/Theme.MyApplication1"
         android:usesCleartextTraffic="true" >
         <activity
+            android:name="com.example.myapplication1.HomeActivity"
+            android:exported="false" />
+        <activity
             android:name="com.example.myapplication1.LoginActivity"
-            android:exported="false" >
-        </activity>
+            android:exported="false" />
         <activity
             android:name="com.example.myapplication1.WelcomeActivity"
             android:exported="true" >
@@ -43,8 +45,7 @@
         </activity>
         <activity
             android:name="com.example.myapplication1.SignUpActivity"
-            android:exported="false" >
-        </activity>
+            android:exported="false" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

@@ -1,7 +1,9 @@
 package com.example.myapplication1;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,10 +19,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends HttpActivity {
     private EditText emailEditText;
     private EditText passwordEditText;
     private Button loginButton;
@@ -28,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String login="login.php";
         setContentView(R.layout.acitivity_login);
         emailEditText = findViewById(R.id.login_email);
         passwordEditText = findViewById(R.id.login_password);
@@ -37,43 +43,77 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = emailEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
-                validateCredentials(email, password);
-            }
-        });
-    }
 
-    private void validateCredentials(String email, String password) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.228/login.php",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if (response.trim().equals("success")) {
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Toast.makeText(LoginActivity.this, response, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Error occurred, show error message
-                        Toast.makeText(LoginActivity.this, "Error occurred: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                // Set POST parameters
                 Map<String, String> params = new HashMap<>();
                 params.put("email", email);
                 params.put("password", password);
-                return params;
+                send(login,params);
             }
-        };
-        // Add request to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
+        });
     }
+    protected void ResponseReceived(String response,Map<String, String> params) {
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            String status = jsonObject.getString("status");
+            if (status.equals("success")) {
+                JSONObject userObject = jsonObject.getJSONObject("user_info");
+                String family_name = userObject.getString("familyname");
+                String first_name = userObject.getString("firstname");
+                String email = userObject.getString("email");
+                int age = userObject.getInt("age");
+                String address = userObject.getString("address");
+
+                // Save user information to shared preferences
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("familyname", family_name);
+                editor.putString("firstname", first_name);
+                editor.putString("email", email);
+                editor.putInt("age", age);
+                editor.putString("address", address);
+                editor.apply();
+
+                // Start HomeActivity
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                String errorMessage = jsonObject.getString("message");
+                Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+//    private void validateCredentials(String email, String password) {
+//        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.228/login.php",
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        if (response.trim().equals("success")) {
+//                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+//                            startActivity(intent);
+//                            finish();
+//                        } else {
+//                            Toast.makeText(LoginActivity.this, response, Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        // Error occurred, show error message
+//                        Toast.makeText(LoginActivity.this, "Error occurred: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                }) {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                // Set POST parameters
+//                return params;
+//            }
+//        };
+//        // Add request to queue
+//        Volley.newRequestQueue(this).add(stringRequest);
+//
+//    }
 }

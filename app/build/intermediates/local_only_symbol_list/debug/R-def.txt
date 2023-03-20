@@ -27,6 +27,8 @@ id address
 id age
 id already_have_account_button
 id email
+id family_name
+id first_name
 id get_started_button
 id imageView
 id imageView2
@@ -37,6 +39,7 @@ id login_password
 id password
 id signup_button
 id textView
+id textview
 id tv_login_title
 layout acitivity_login
 layout activity_home

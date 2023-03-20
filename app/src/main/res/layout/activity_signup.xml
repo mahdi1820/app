@@ -8,15 +8,37 @@
     android:padding="16dp">
 
     <EditText
+        android:id="@+id/first_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:fontFamily="@font/prompt"
+        android:hint="First name"
+        android:inputType="text"
+        android:minHeight="48dp"
+        tools:ignore="VisualLintTextFieldSize" />
+
+    <EditText
+        android:id="@+id/family_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:hint="Family name"
+        android:inputType="text"
+        android:minHeight="48dp"
+        tools:ignore="VisualLintTextFieldSize"
+        android:fontFamily="@font/prompt"/>
+
+    <EditText
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autofillHints=""
+        android:fontFamily="@font/prompt"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
-        tools:ignore="VisualLintTextFieldSize"
-        android:fontFamily="@font/prompt"/>
+        tools:ignore="VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/password"
