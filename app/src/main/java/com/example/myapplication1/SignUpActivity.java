@@ -1,5 +1,6 @@
 package com.example.myapplication1;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -32,6 +33,10 @@ public class SignUpActivity extends HttpActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Intent intent = new Intent(this, NetworkService.class);
+        startService(intent);
+        bindService(intent, connection, Context.BIND_AUTO_CREATE);
+
         setContentView(R.layout.activity_signup);
 
 
@@ -46,6 +51,12 @@ public class SignUpActivity extends HttpActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(!networkService.getNetworkReceiver().isConnected()) {
+                    Toast.makeText(SignUpActivity.this, "Verify your Internet connection", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 String firstname = firstnameEditText.getText().toString();
                 String familyname = familynameEditText.getText().toString();
                 String email = emailEditText.getText().toString();

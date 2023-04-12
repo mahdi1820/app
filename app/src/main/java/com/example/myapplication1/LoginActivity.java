@@ -1,8 +1,12 @@
 package com.example.myapplication1;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
@@ -21,10 +25,16 @@ public class LoginActivity extends HttpActivity {
     private EditText emailEditText;
     private EditText passwordEditText;
     private Button loginButton;
+    private String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = new Intent(this, NetworkService.class);
+        startService(intent);
+        bindService(intent, connection, Context.BIND_AUTO_CREATE);
+
         setContentView(R.layout.acitivity_login);
         emailEditText = findViewById(R.id.login_email);
         passwordEditText = findViewById(R.id.login_password);
@@ -33,6 +43,12 @@ public class LoginActivity extends HttpActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(!networkService.getNetworkReceiver().isConnected()) {
+                    Toast.makeText(LoginActivity.this, "Verify your Internet connection", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 String email = emailEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
                 Map<String, String> params = new HashMap<>();
@@ -73,5 +89,14 @@ public class LoginActivity extends HttpActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+
+
+
     }
+
+    public String getLastStatus() {
+        return this.status;
+    }
+
 }
